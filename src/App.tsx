@@ -46,30 +46,30 @@ const PortfolioContent = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
             <ScreenExpansion isExpanding={isAnimating && currentView === 'gameboy'}>
-              <GameBoyFrame 
-                isExpanding={isAnimating && currentView === 'gameboy'} 
-                onStartClick={expandToFolders} 
+              <GameBoyFrame
+                isExpanding={isAnimating && currentView === 'gameboy'}
+                onStartClick={expandToFolders}
               />
             </ScreenExpansion>
-          } 
+          }
         />
-        <Route 
-          path="/folders" 
+        <Route
+          path="/folders"
           element={
-            <FolderBrowser 
-              onNavigate={startTransitionToSection} 
-              onTransitionComplete={commitTransitionToSection} 
+            <FolderBrowser
+              onNavigate={startTransitionToSection}
+              onTransitionComplete={commitTransitionToSection}
               onHome={backToGameboy}
             />
-          } 
+          }
         />
-        <Route 
-          path="/section/:id" 
-          element={renderSection()} 
+        <Route
+          path="/section/:id"
+          element={renderSection()}
         />
       </Routes>
     </AnimatePresence>
@@ -79,7 +79,7 @@ const PortfolioContent = () => {
 function App() {
   return (
     <SoundProvider>
-      <Router>
+      <Router basename="/ranviragarwal.me/">
         <PortfolioContent />
       </Router>
     </SoundProvider>
