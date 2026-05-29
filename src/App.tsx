@@ -79,7 +79,7 @@ const PortfolioContent = () => {
 function App() {
   return (
     <SoundProvider>
-      <Router basename="/ranviragarwal.me/">
+      <Router basename="/">
         <PortfolioContent />
       </Router>
     </SoundProvider>
