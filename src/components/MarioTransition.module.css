@@ -1,0 +1,286 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  overflow: hidden;
+  background: rgba(0,0,0,0.1);
+}
+
+.uiContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none; /* Let clicks pass through */
+  z-index: 200;
+  box-sizing: border-box;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+.topRight {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+.livesText {
+  font-family: 'Press Start 2P', monospace;
+  color: #fbbf24;
+  font-size: 24px;
+  text-shadow: 4px 4px 0 black;
+}
+
+.livesText span {
+  color: #ef4444; /* Red hearts */
+}
+
+.controlBtn {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  padding: 12px 20px;
+  border: 4px solid #fbbf24;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+  transition: all 0.2s;
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+
+.controlBtn:hover {
+  background-color: #fbbf24;
+  color: #000000;
+  transform: scale(1.05);
+}
+
+.controlBtn:active {
+  transform: scale(0.95);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+}
+
+.levelHeader {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  color: #ffffff;
+  font-size: 20px;
+  text-shadow: 4px 4px 0 black;
+  z-index: 101;
+}
+
+.marioContainer {
+  position: absolute;
+  bottom: 44px; /* Ground level */
+  z-index: 105;
+}
+
+.targetPipe {
+  position: absolute;
+  bottom: 44px;
+  width: 150px;
+  height: 180px;
+  z-index: 104;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.targetPipe.glowing {
+  box-shadow: 0 0 50px 15px rgba(34, 197, 94, 0.9);
+  transform: scale(1.05);
+}
+
+.pipeTop {
+  width: 110%;
+  height: 40px;
+  background: linear-gradient(90deg, #187f10 0%, #30df20 20%, #187f10 80%, #0d4609 100%);
+  border: 6px solid black;
+  margin-left: -5%;
+  border-radius: 4px;
+}
+
+.pipeBody {
+  width: 100%;
+  height: calc(100% - 40px);
+  background: linear-gradient(90deg, #187f10 0%, #30df20 20%, #187f10 80%, #0d4609 100%);
+  border: 6px solid black;
+  border-top: none;
+}
+
+/* Goomba Wrapper */
+.goombaWrapper {
+  position: absolute;
+  bottom: 44px;
+  width: 50px;
+  height: 45px;
+  z-index: 102;
+  transition: opacity 0.3s;
+  animation: goomba-walk 0.3s infinite alternate;
+}
+
+@keyframes goomba-walk {
+  0% { transform: translateY(0) rotate(-3deg); }
+  100% { transform: translateY(-4px) rotate(3deg); }
+}
+
+.goombaWrapper.defeated {
+  animation: none;
+  transform: scaleY(0.2) translateY(80px);
+  opacity: 0;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
+}
+
+@keyframes float-right {
+  0% { transform: translateX(-150px); }
+  100% { transform: translateX(120vw); }
+}
+
+.cloud1 { animation: float-right 35s linear infinite; animation-delay: -5s; }
+.cloud2 { animation: float-right 45s linear infinite; animation-delay: -15s; }
+.cloud3 { animation: float-right 25s linear infinite; animation-delay: -2s; }
+.cloud4 { animation: float-right 40s linear infinite; animation-delay: -20s; }
+.cloud5 { animation: float-right 30s linear infinite; animation-delay: -10s; }
+
+
+/* Floating Blocks */
+.floatingBlock {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background-color: #ffd700;
+  border: 4px solid #000;
+  z-index: 103;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 36px;
+  color: #000000;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.5);
+  animation: float 2s infinite ease-in-out;
+}
+
+.floatingBlock.hit {
+  background-color: #78350f;
+  color: #451a03;
+  animation: squish 0.2s forwards;
+}
+
+@keyframes squish {
+  0% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(-15px) scaleY(0.8); }
+  100% { transform: translateY(-5px) scaleY(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.coin {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background-color: #fde047;
+  border: 4px solid #ca8a04;
+  border-radius: 15px;
+  z-index: 102;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(0.1); }
+  100% { transform: scaleX(1); }
+}
+
+/* Score Popup */
+.scorePopup {
+  position: absolute;
+  font-family: 'Press Start 2P', monospace;
+  color: white;
+  text-shadow: 2px 2px 0 black;
+  font-size: 16px;
+  z-index: 104;
+  pointer-events: none;
+  animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-50px); opacity: 0; }
+}
+
+/* UI / Modals */
+.gameOverOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.gameOverModal {
+  background-color: #001a33;
+  border: 4px solid #fbbf24;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.9);
+}
+
+.gameOverTitle {
+  font-family: 'Press Start 2P', monospace;
+  color: #ef4444;
+  font-size: 32px;
+  text-shadow: 4px 4px 0 #7f1d1d;
+}
+
+.greenFlash {
+  position: fixed;
+  inset: 0;
+  background-color: #22c55e;
+  z-index: 110;
+  pointer-events: none;
+}
+
+.hitEffect {
+  filter: brightness(2) sepia(1) hue-rotate(-50deg) saturate(5);
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}

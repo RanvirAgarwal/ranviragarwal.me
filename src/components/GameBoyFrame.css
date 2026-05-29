@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.gameboy-page {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0b101e;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.scale-wrapper {
+  transform-origin: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.console-body {
+  width: 1400px;
+  height: 787.5px;
+  background-color: #c42626; /* Deep bright red */
+  border-radius: 40px;
+  padding: 24px;
+  box-shadow: 
+    inset -10px -10px 20px rgba(0,0,0,0.4),
+    inset 10px 10px 20px rgba(255,255,255,0.3),
+    15px 25px 40px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metal-plate {
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #f5ecd5 0%, #D9C8A4 40%, #cbb78d 100%);
+  border: 4px solid #8a191d;
+  box-shadow: 
+    inset 0 6px 15px rgba(255, 255, 255, 0.8), 
+    inset 0 -6px 15px rgba(0, 0, 0, 0.2),
+    0 0 10px rgba(0,0,0,0.5);
+  padding: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Screws */
+.screw {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #a19273 0%, #756a52 100%);
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8), 1px 1px 1px rgba(255,255,255,0.6);
+}
+.screw::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 10px; height: 2px;
+  background-color: #3b3529;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+.top-left { top: 20px; left: 20px; }
+.top-right { top: 20px; right: 20px; transform: rotate(30deg); }
+.bottom-left { bottom: 20px; left: 20px; transform: rotate(-20deg); }
+.bottom-right { bottom: 20px; right: 20px; transform: rotate(70deg); }
+
+.top-text {
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.25rem;
+  color: #8c7f63;
+  letter-spacing: 0.2em;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+  margin-top: 10px;
+}
+
+.controls-layout {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* DPAD */
+.dpad-container {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+}
+.dpad {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  filter: drop-shadow(4px 6px 4px rgba(0,0,0,0.4));
+}
+.dpad-vertical, .dpad-horizontal {
+  position: absolute;
+  background-color: #2b2b2b;
+  border-radius: 8px;
+  box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), inset -4px -4px 10px rgba(0,0,0,0.8);
+}
+.dpad-vertical {
+  width: 50px;
+  height: 160px;
+  left: 55px;
+}
+.dpad-horizontal {
+  width: 160px;
+  height: 50px;
+  top: 55px;
+}
+.dpad-center {
+  position: absolute;
+  width: 40px; height: 40px;
+  background: radial-gradient(circle, #222 0%, #111 100%);
+  border-radius: 50%;
+  top: 60px; left: 60px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* SCREEN */
+.screen-container {
+  width: 700px;
+  height: 525px; /* 4:3 */
+  background-color: #f2ebd9; /* Inner bezel much lighter */
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 
+    inset 0 8px 20px rgba(0,0,0,0.6), 
+    inset 0 -2px 5px rgba(255,255,255,0.5),
+    0 2px 4px rgba(255,255,255,0.8);
+}
+
+.screen-bezel {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.crt-screen {
+  width: 100%;
+  height: 100%;
+  background-color: #5c94fc; /* Classic Mario Sky */
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MARIO GAME WORLD ELEMENTS */
+.hud {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+  font-size: 14px;
+  z-index: 20;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+.hud-block { display: flex; flex-direction: column; line-height: 1.5; }
+.hud-block.center { align-items: center; }
+.hud-block.right { align-items: flex-end; }
+
+.game-world {
+  flex: 1;
+  position: relative;
+}
+
+/* CSS Clouds */
+.cloud { position: absolute; }
+.cloud-part {
+  position: absolute;
+  background-color: #ffffff !important;
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  z-index: 5;
+}
+.cloud-1 { top: 40px; left: 60px; width: 80px; height: 40px; }
+.cloud-1 .part1 { width: 40px; height: 40px; left: 20px; top: 0; }
+.cloud-1 .part2 { width: 30px; height: 30px; left: 0; top: 10px; }
+.cloud-1 .part3 { width: 30px; height: 30px; left: 50px; top: 10px; }
+
+.cloud-2 { top: 80px; right: 100px; width: 100px; height: 50px; }
+.cloud-2 .part1 { width: 50px; height: 50px; left: 25px; top: 0; }
+.cloud-2 .part2 { width: 35px; height: 35px; left: 0; top: 15px; }
+.cloud-2 .part3 { width: 35px; height: 35px; left: 65px; top: 15px; }
+
+.cloud-3 { top: 150px; left: 200px; width: 120px; height: 60px; }
+.cloud-3 .part1 { width: 60px; height: 60px; left: 30px; top: 0; }
+.cloud-3 .part2 { width: 40px; height: 40px; left: 0; top: 20px; }
+.cloud-3 .part3 { width: 50px; height: 50px; left: 70px; top: 10px; }
+.cloud-3 .part4 { width: 40px; height: 40px; left: 100px; top: 20px; }
+
+/* Bushes */
+.bush { position: absolute; bottom: 44px; z-index: 10; }
+.bush-part {
+  position: absolute;
+  background-color: #2eb424;
+  border: 2px solid black;
+  border-bottom: none;
+  border-radius: 50% 50% 0 0;
+}
+.bush-1 { left: 40px; width: 120px; height: 40px; }
+.bush-1 .p1 { width: 50px; height: 50px; left: 35px; bottom: 0; }
+.bush-1 .p2 { width: 40px; height: 40px; left: 0; bottom: 0; }
+.bush-1 .p3 { width: 40px; height: 40px; left: 80px; bottom: 0; }
+
+/* Pipe */
+.pipe { position: absolute; bottom: 44px; right: 60px; width: 70px; height: 80px; z-index: 15; }
+.pipe-top { width: 100%; height: 30px; background: linear-gradient(90deg, #187f10 0%, #30df20 20%, #187f10 80%, #0d4609 100%); border: 2px solid black; border-radius: 2px;}
+.pipe-body { width: 90%; height: 50px; margin: 0 auto; background: linear-gradient(90deg, #187f10 0%, #30df20 20%, #187f10 80%, #0d4609 100%); border: 2px solid black; border-top: none; }
+
+/* Ground */
+.ground-container {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  z-index: 20;
+}
+.ground-top-grass {
+  height: 4px;
+  background-color: #1dd216;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+.ground-bricks {
+  height: 40px;
+  background-color: #d1561f;
+  background-image: 
+    linear-gradient(45deg, #e39352 25%, transparent 25%, transparent 75%, #e39352 75%, #e39352),
+    linear-gradient(45deg, #e39352 25%, transparent 25%, transparent 75%, #e39352 75%, #e39352);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Center Content */
+.game-content-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.game-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 36px;
+  color: white;
+  text-shadow: 4px 4px 0 black, -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black;
+  text-align: center;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+.game-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  color: #fbbf24; /* yellow */
+  text-shadow: 2px 2px 0 black;
+  margin-bottom: 40px;
+  animation: pulse 1.5s infinite;
+}
+
+.start-button {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #cc2222;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  border: 4px solid white;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 black;
+  transition: all 0.1s;
+}
+.start-button:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 black;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* CRT Scanlines and curvature */
+.crt-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+    radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+  background-size: 100% 4px, 100% 100%;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+/* RIGHT BUTTONS */
+.action-buttons-container {
+  width: 300px;
+  height: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-labels {
+  position: absolute;
+  top: -20px; right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pill-indicator {
+  width: 40px;
+  height: 14px;
+  background-color: #2b2b2b;
+  border-radius: 7px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.4);
+  margin-bottom: 4px;
+}
+.pill-indicator.mt { margin-top: 20px; }
+.label-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #8c7f63;
+}
+
+.buttons-group {
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 40px;
+  transform: rotate(-20deg);
+  justify-content: center;
+}
+
+.action-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.a-btn { margin-top: -40px; } /* Stagger them */
+
+.action-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #cc2222;
+  border: 3px solid #8a191d;
+  box-shadow: 
+    inset 4px 4px 10px rgba(255,255,255,0.4), 
+    inset -4px -4px 10px rgba(0,0,0,0.6), 
+    4px 6px 10px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+.action-btn:active {
+  box-shadow: 
+    inset 4px 4px 10px rgba(0,0,0,0.6), 
+    inset -4px -4px 10px rgba(255,255,255,0.2), 
+    0px 0px 2px rgba(0,0,0,0.4);
+  transform: translateY(4px);
+}
+
+.action-btn-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 18px;
+  color: #8c7f63;
+  margin-top: 15px;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.brand-logo {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: #8c7f63;
+  border: 2px solid #8c7f63;
+  border-radius: 20px;
+  padding: 8px 16px;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2), 1px 1px 0 rgba(255,255,255,0.4);
+}
+
+.speaker-grill {
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+  display: flex;
+  gap: 8px;
+  transform: rotate(-20deg);
+}
+.grill-slot {
+  width: 6px;
+  height: 40px;
+  background-color: #2b2b2b;
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.8), 1px 1px 1px rgba(255,255,255,0.4);
+}

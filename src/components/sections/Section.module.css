@@ -1,0 +1,74 @@
+.card {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #22c55e;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #fbbf24;
+}
+
+.cardTitle {
+  font-size: 18px;
+  color: #fbbf24;
+  margin-bottom: 8px;
+}
+
+.cardSubtitle {
+  font-size: 12px;
+  color: #22c55e;
+  margin-bottom: 16px;
+}
+
+.cardBody {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #cccccc;
+  font-family: 'Inter', sans-serif;
+}
+
+.list {
+  margin-top: 12px;
+  padding-left: 20px;
+}
+
+.listItem {
+  margin-bottom: 8px;
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tag {
+  background-color: #001a33;
+  color: #fbbf24;
+  padding: 4px 8px;
+  font-size: 10px;
+  border: 1px solid #fbbf24;
+}
+
+.link {
+  color: #22c55e;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #fbbf24;
+  text-decoration: underline;
+}
+
+/* Grid for Projects */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}

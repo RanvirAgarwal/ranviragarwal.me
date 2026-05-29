@@ -1,0 +1,639 @@
+/* ================================================================
+   RetroTVFrame.module.css — v2
+   Authentic NES-console-inspired CRT frame.
+
+   Design principles:
+   · Single light source: top-left ambient. Every highlight/shadow
+     is consistent with that direction — no contradictions.
+   · Matte plastic: diffuse surface gradients, never a single hard
+     specular dot.
+   · Physical depth: the bezel appears to be ~8px thick, achieved
+     with stacked box-shadow "steps" on the outer shell.
+   · Recessed screen: deep inset shadows from all four sides pull
+     the CRT glass visually backward into the plastic.
+   ================================================================ */
+
+/* ─── Outer shell / design tokens ───────────────────────────────── */
+.frame {
+  /* Plastic color ramp */
+  --p-dark:     #141414;
+  --p-mid:      #1a1a1a;
+  --p-light:    #242424;
+  --p-hi:       #2e2e2e;   /* bevel edge catching top-left light */
+  --p-lo:       #0b0b0b;   /* bevel edge in bottom-right shadow  */
+
+  /* Screen */
+  --scr-bg:     #001020;
+  --scr-tint:   rgba(0, 18, 56, 0.32);
+  --scanline:   rgba(0, 0, 0, 0.52);
+
+  /* Controls */
+  --pwr-red:    #cc2222;
+  --pwr-glow:   rgba(204, 34, 34, 0.58);
+  --amber:      #ffaa00;
+  --amber-glow: rgba(255, 170, 0, 0.65);
+
+  /* Labels */
+  --txt-label:  #666666;
+  --txt-brand:  #b8b8b8;
+
+  /*
+    Outer shell extrusion:
+      Three stacked pixel-thin "steps" (2px, 4px, 6px) replicate
+      the look of a thick injection-moulded edge; the diffuse drop
+      shadow anchors the console to the surface below.
+  */
+  --shell-shadow:
+    0 -1px 0 0  var(--p-hi),
+    0  2px 0 0  #0e0e0e,
+    0  4px 0 0  #0b0b0b,
+    0  6px 0 0  #090909,
+    0  10px 22px -4px rgba(0,0,0,0.95),
+    0  18px 40px -8px rgba(0,0,0,0.65);
+
+  /* ── Layout ── */
+  position: relative;
+  width: min(90vw, 980px);
+  aspect-ratio: 980 / 600;
+
+  /*
+    Plastic surface gradient:
+      Very subtle diagonal brightening top-left → dark bottom-right,
+      as if a single overhead-left ambient fills the face.
+      Second layer: an even subtler highlight arc (not a full gloss,
+      just the first 30% of the face where light is most direct).
+  */
+  background:
+    linear-gradient(
+      148deg,
+      rgba(255,255,255,0.038) 0%,
+      transparent 34%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--p-light) 0%,
+      var(--p-mid)   28%,
+      var(--p-dark)  100%
+    );
+
+  /* Hard beveled border — bright top-left, dark bottom-right */
+  border-top:    2px solid var(--p-hi);
+  border-left:   2px solid #262626;
+  border-right:  2px solid #0e0e0e;
+  border-bottom: 2px solid var(--p-lo);
+
+  box-shadow: var(--shell-shadow);
+
+  /* Three-row CSS Grid: header | screen+controls | footer */
+  display: grid;
+  grid-template-rows: 52px 1fr 84px;
+  box-sizing: border-box;
+  overflow: hidden;
+  outline: none;
+}
+
+/* Keyboard focus ring — visible only to keyboard users */
+.frame:focus-visible {
+  outline: 2px solid rgba(255, 170, 0, 0.45);
+  outline-offset: 5px;
+}
+
+/* Matte plastic grain — barely-visible repeating micro-lines */
+.frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    94deg,
+    transparent         0px,
+    transparent         2px,
+    rgba(0,0,0,0.016)  2px,
+    rgba(0,0,0,0.016)  3px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Side ventilation slots ─────────────────────────────────── */
+.ventLeft,
+.ventRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1;
+}
+.ventLeft  { left:  8px; }
+.ventRight { right: 8px; }
+
+.ventSlot {
+  width: 3px;
+  height: 22px;
+  background: linear-gradient(
+    to bottom,
+    #111 0%,
+    #090909 55%,
+    #171717 100%
+  );
+  border-top:    1px solid #333;
+  border-bottom: 1px solid #070707;
+}
+
+/* ─── Row 1: Header ──────────────────────────────────────────── */
+.headerRow {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px;
+  position: relative;
+  z-index: 1;
+}
+
+.brandBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.brandSub {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 6.5px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--txt-label);
+  opacity: 0.65;
+}
+
+/* Molded-letter simulation: faint top-highlight, faint bottom depth */
+.brandMain {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--txt-brand);
+  text-shadow:
+    0  1px 0 rgba(255,255,255,0.045),
+    0 -1px 0 rgba(0,0,0,0.75);
+}
+
+.headerMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.modelLabel {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 6px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3a3a3a;
+}
+
+.serialStamp {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6px;
+  color: #2e2e2e;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Row 2: Screen + Controls ───────────────────────────────── */
+.contentRow {
+  grid-row: 2;
+  display: flex;
+  align-items: stretch;
+  padding: 0 52px;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+  min-height: 0;    /* allow flex children to fill grid cell height */
+}
+
+/* ── Screen housing: the recessed tray ────────────────────────── */
+.screenHousing {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+
+  /*
+    Deep four-sided inset creates the physical recess:
+    top-inset is strongest (light hits the housing rim from above-left),
+    side insets are moderate, bottom is lightest.
+  */
+  background: #0c0c0c;
+  box-shadow:
+    inset 0  4px  9px rgba(0,0,0,0.96),
+    inset 0 -2px  5px rgba(0,0,0,0.55),
+    inset  4px 0  7px rgba(0,0,0,0.70),
+    inset -4px 0  7px rgba(0,0,0,0.70);
+}
+
+/*
+  Thin brushed-metal ring around the screen glass.
+  Positioned absolutely so it fills the housing completely.
+*/
+.screenRing {
+  position: absolute;
+  inset: 8px;
+  background: linear-gradient(
+    145deg,
+    #3c3c3c  0%,
+    #2c2c2c 35%,
+    #1e1e1e 65%,
+    #282828 100%
+  );
+  border: 1px solid #0e0e0e;
+  border-top-color:  #484848;
+  border-left-color: #3e3e3e;
+}
+
+/* CRT screen glass — sits inset inside the metal ring */
+.crtScreen {
+  position: absolute;
+  inset: 4px;
+  background-color: var(--scr-bg);
+  overflow: hidden;
+}
+
+/*
+  Blue phosphor tint — mix-blend-mode: screen means it adds a
+  blue-tinted layer only where there is brightness, leaving
+  deep blacks untouched. Authentic to how CRT phosphor looks.
+*/
+.crtScreen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--scr-tint);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/*
+  Scanline overlay: 1px dark stripe every 3px.
+  GPU-accelerated drift of 3px over 10s — matches the actual
+  vertical refresh artifact on old CRTs, almost invisible.
+*/
+.crtScreen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent        0px,
+    transparent        2px,
+    var(--scanline)   2px,
+    var(--scanline)   3px
+  );
+  opacity: 0.52;
+  pointer-events: none;
+  z-index: 3;
+  will-change: transform;
+  transform: translateZ(0);
+  animation: scanlineDrift 10s linear infinite;
+}
+
+/* Screen-off state: near-black, tint removed */
+.screenOff .crtScreen {
+  background-color: #050508;
+}
+.screenOff .crtScreen::before {
+  opacity: 0;
+}
+
+/*
+  Content layer — beneath the phosphor tint and scanlines.
+  Brightness is driven by a CSS custom property set inline.
+*/
+.screenContent {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+  filter: brightness(var(--screen-brightness, 1));
+}
+
+.screenContentOn {
+  opacity: 1;
+}
+
+/* CRT glass glare: soft diagonal highlight in top-left corner */
+.glassGlare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 58%;
+  height: 42%;
+  background: linear-gradient(
+    138deg,
+    rgba(170, 210, 255, 0.052) 0%,
+    rgba(110, 155, 220, 0.024) 42%,
+    transparent 66%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Active phosphor bleed: screen glow bleeds slightly into metal ring */
+.screenGlowOn .screenRing {
+  box-shadow:
+    inset 0 0 18px rgba(0, 55, 145, 0.13),
+    inset 0 0  5px rgba(0, 28, 80,  0.28);
+}
+
+/* Power-on flicker: brightness spike → settle */
+@keyframes screenPowerOn {
+  0%   { opacity: 0;   filter: brightness(5) blur(3px); }
+  25%  { opacity: 0.5; filter: brightness(2.5) blur(1px); }
+  55%  { opacity: 0.85; filter: brightness(1.2) blur(0px); }
+  100% { opacity: 1;   filter: brightness(1); }
+}
+
+.screenFlicker {
+  animation: screenPowerOn 420ms ease-out forwards;
+}
+
+/* Scanline drift — imperceptible, hardware-composited */
+@keyframes scanlineDrift {
+  0%   { transform: translateZ(0) translateY(0px);  }
+  100% { transform: translateZ(0) translateY(3px);  }
+}
+
+/* ── Controls column ──────────────────────────────────────────── */
+.controlsCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 88px;
+  flex-shrink: 0;
+}
+
+/* Power button group */
+.powerGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/*
+  NES-style power button: radial gradient creates recessed rubber dome.
+  Top-left of the dome is slightly lighter (ambient light).
+  Box-shadow ring at 2px prevents the red from bleeding into the grey.
+*/
+.powerBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: radial-gradient(
+    circle at 38% 32%,
+    #e82828 0%,
+    var(--pwr-red) 52%,
+    #991515 100%
+  );
+  box-shadow:
+    0 0 0 2px #6a0e0e,
+    0 2px 4px rgba(0,0,0,0.88),
+    inset 0  1px 1px rgba(255,255,255,0.18),
+    inset 0 -1px 2px rgba(0,0,0,0.5);
+  transform: translateY(0px);
+  transition:
+    transform    80ms ease,
+    box-shadow  300ms ease-out;
+}
+
+/* Physical depression on click */
+.powerBtn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 2px #6a0e0e,
+    0 1px 1px rgba(0,0,0,0.88),
+    inset 0 1px 1px rgba(255,255,255,0.12),
+    inset 0 2px 4px rgba(0,0,0,0.7);
+}
+
+/* On state: red LED ring glow */
+.powerBtnOn {
+  box-shadow:
+    0 0 0 2px #6a0e0e,
+    0 0  9px 3px var(--pwr-glow),
+    0 2px 4px rgba(0,0,0,0.88),
+    inset 0  1px 1px rgba(255,255,255,0.18),
+    inset 0 -1px 2px rgba(0,0,0,0.5);
+}
+
+.powerBtnLabel {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 5.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3e3e3e;
+}
+
+/* Amber status LED */
+.statusLed {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #221600;
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,0.7),
+    0 0 0 1px #181000;
+  transition:
+    background  300ms ease-out,
+    box-shadow  300ms ease-out;
+}
+
+.statusLedOn {
+  background: var(--amber);
+  box-shadow:
+    0 0 6px 3px var(--amber-glow),
+    inset 0 -1px 2px rgba(190, 95, 0, 0.4),
+    0 0 0 1px #553200;
+  animation: ledPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes ledPulse {
+  0%, 100% { opacity: 1.00; }
+  50%       { opacity: 0.76; }
+}
+
+/* Reset button (visual-only) */
+.resetGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.resetBtn {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 32%,
+    #585858 0%,
+    #3a3a3a 58%,
+    #242424 100%
+  );
+  box-shadow:
+    0 0 0 2px #181818,
+    0 1px 2px rgba(0,0,0,0.7),
+    inset 0 1px 1px rgba(255,255,255,0.07);
+}
+
+.resetBtnLabel {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 5.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #333;
+}
+
+/* ─── Row 3: Footer — ports + speaker ───────────────────────── */
+.footerRow {
+  grid-row: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 52px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Controller port cluster */
+.portCluster {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.portUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.portLabel {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 5.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3c3c3c;
+}
+
+/*
+  7-pin controller port recess.
+  Border asymmetry: top/left brighter than bottom/right (light source).
+*/
+.port {
+  width: 42px;
+  height: 26px;
+  background: linear-gradient(to bottom, #0b0b0b, #080808);
+  border: 1px solid #0e0e0e;
+  border-top-color:  #1e1e1e;
+  border-left-color: #191919;
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,0.95),
+    inset 0 0 3px   rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portPins {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.pin {
+  width: 2px;
+  height: 9px;
+  background: linear-gradient(to bottom, #464646, #282828);
+}
+
+/* Speaker grille — staggered widths replicate NES moulded shape */
+.speaker {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  align-items: flex-end;
+}
+
+/*
+  Each grille line fades at both ends so it reads as a slot cut through
+  the plastic rather than a painted stripe.
+*/
+.gLine {
+  height: 1.5px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #0f0f0f 18%,
+    #0c0c0c 50%,
+    #0f0f0f 82%,
+    transparent
+  );
+  border-top: 0.5px solid rgba(58, 58, 58, 0.25);
+}
+
+/* Staggered widths: narrow → wide → narrow (NES proportions) */
+.gLine:nth-child(1)  { width: 42px; }
+.gLine:nth-child(2)  { width: 52px; }
+.gLine:nth-child(3)  { width: 60px; }
+.gLine:nth-child(4)  { width: 66px; }
+.gLine:nth-child(5)  { width: 68px; }
+.gLine:nth-child(6)  { width: 66px; }
+.gLine:nth-child(7)  { width: 60px; }
+.gLine:nth-child(8)  { width: 50px; }
+.gLine:nth-child(9)  { width: 40px; }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .frame {
+    width: 97vw;
+  }
+  .headerRow,
+  .contentRow,
+  .footerRow {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .ventLeft,
+  .ventRight { display: none; }
+  .brandMain { font-size: 13px; }
+  .controlsCol { width: 64px; gap: 10px; }
+  .contentRow { gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .headerRow,
+  .contentRow,
+  .footerRow {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .controlsCol { width: 50px; }
+  .contentRow  { gap: 8px; }
+  .portCluster { gap: 8px; }
+  .port { width: 32px; }
+}

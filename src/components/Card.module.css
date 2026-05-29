@@ -1,0 +1,83 @@
+.card {
+  background: #001a33;
+  border-left: 6px solid var(--accent-color);
+  border-top: 2px solid #1a365d;
+  border-right: 2px solid #1a365d;
+  border-bottom: 2px solid #1a365d;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  border-top-color: #2a4a7f;
+  border-right-color: #2a4a7f;
+  border-bottom-color: #2a4a7f;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1rem;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.4;
+}
+
+.subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #a0aec0;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.expandIcon {
+  font-size: 1rem;
+  margin-left: 1rem;
+  font-family: 'Press Start 2P', monospace;
+  padding: 0.5rem;
+}
+
+.shortDescription {
+  font-family: 'Inter', sans-serif;
+  color: #e2e8f0;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.expandedContent {
+  overflow: hidden;
+}
+
+.expandedContentInner {
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+  border-top: 2px dashed var(--accent-color);
+  font-family: 'Inter', sans-serif;
+  color: #cbd5e1;
+  line-height: 1.6;
+}

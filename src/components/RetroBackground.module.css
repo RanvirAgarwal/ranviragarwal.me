@@ -1,0 +1,106 @@
+/* ================================================================
+   RetroBackground.module.css
+   Fixed fullscreen circuit-board pattern for the NES portfolio.
+   Pure CSS — no images, no Tailwind, hardware-accelerated.
+   ================================================================ */
+
+.background {
+  /* ── Design tokens ── */
+  --bg-base:    #0a0e27;
+  --grid-line:  rgba(20, 44, 78, 0.95);
+  --grid-dot:   rgba(24, 56, 104, 0.90);
+  --glow-core:  rgba(8, 24, 72, 0.45);
+
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+
+  background-color: var(--bg-base);
+
+  /*
+    Three-layer CSS circuit-board grid:
+      1. Vertical lines every 32px
+      2. Horizontal lines every 32px
+      3. Small radial dot at every grid intersection
+    All three share the same background-size so they align perfectly.
+  */
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent         0px,
+      transparent         31px,
+      var(--grid-line)    31px,
+      var(--grid-line)    32px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent         0px,
+      transparent         31px,
+      var(--grid-line)    31px,
+      var(--grid-line)    32px
+    ),
+    radial-gradient(
+      circle at center,
+      var(--grid-dot) 1.5px,
+      transparent 1.5px
+    );
+  background-size: 32px 32px, 32px 32px, 32px 32px;
+
+  /*
+    Grid drifts diagonally by exactly one cell over 40 s, then loops.
+    Movement is ~0.8px/s — imperceptible but alive.
+  */
+  animation: gridDrift 40s linear infinite;
+  will-change: background-position;
+}
+
+/*
+  Central ambient radial — simulates a CRT warming the surrounding room.
+  Very slow 14s pulse so it reads as material quality, not as animation.
+*/
+.background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 48%,
+    var(--glow-core) 0%,
+    rgba(5, 14, 44, 0.22) 50%,
+    transparent 80%
+  );
+  animation: ambientPulse 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/*
+  Page-wide scanline overlay — the same horizontal-line pattern a
+  real CRT phosphor coating produces across every surface.
+*/
+.background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent           0px,
+    transparent           2px,
+    rgba(0, 0, 0, 0.11)  2px,
+    rgba(0, 0, 0, 0.11)  3px
+  );
+  pointer-events: none;
+}
+
+/* ── Animations ──────────────────────────────────────────────── */
+
+/* Grid shifts by one full cell, then seamlessly loops */
+@keyframes gridDrift {
+  0%   { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 32px 32px, 32px 32px, 32px 32px; }
+}
+
+/* Barely-perceptible central glow breathe */
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.78; }
+  50%       { opacity: 1.00; }
+}

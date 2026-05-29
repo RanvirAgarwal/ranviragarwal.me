@@ -1,0 +1,92 @@
+.sceneContainer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #5c94fc; /* Bright sky blue */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1; /* base layer */
+}
+
+/* Clouds */
+.cloud { position: absolute; pointer-events: none; }
+.cloudPart {
+  position: absolute;
+  background-color: #ffffff !important;
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  z-index: 5;
+}
+.cloud1 { top: 40px; left: 60px; width: 80px; height: 40px; }
+.cloud1 .part1 { width: 40px; height: 40px; left: 20px; top: 0; }
+.cloud1 .part2 { width: 30px; height: 30px; left: 0; top: 10px; }
+.cloud1 .part3 { width: 30px; height: 30px; left: 50px; top: 10px; }
+
+.cloud2 { top: 80px; right: 100px; width: 100px; height: 50px; }
+.cloud2 .part1 { width: 50px; height: 50px; left: 25px; top: 0; }
+.cloud2 .part2 { width: 35px; height: 35px; left: 0; top: 15px; }
+.cloud2 .part3 { width: 35px; height: 35px; left: 65px; top: 15px; }
+
+.cloud3 { top: 150px; left: 200px; width: 120px; height: 60px; }
+.cloud3 .part1 { width: 60px; height: 60px; left: 30px; top: 0; }
+.cloud3 .part2 { width: 40px; height: 40px; left: 0; top: 20px; }
+.cloud3 .part3 { width: 50px; height: 50px; left: 70px; top: 10px; }
+.cloud3 .part4 { width: 40px; height: 40px; left: 100px; top: 20px; }
+
+/* Bushes */
+.bush { position: absolute; bottom: 44px; z-index: 10; pointer-events: none; }
+.bushPart {
+  position: absolute;
+  background-color: #2eb424;
+  border: 2px solid black;
+  border-bottom: none;
+  border-radius: 50% 50% 0 0;
+}
+.bush1 { left: 40px; width: 120px; height: 40px; }
+.bush1 .p1 { width: 50px; height: 50px; left: 35px; bottom: 0; }
+.bush1 .p2 { width: 40px; height: 40px; left: 0; bottom: 0; }
+.bush1 .p3 { width: 40px; height: 40px; left: 80px; bottom: 0; }
+
+/* Ground */
+.groundContainer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  z-index: 20;
+  pointer-events: none;
+}
+.groundTopGrass {
+  height: 4px;
+  background-color: #1dd216;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+.groundBricks {
+  height: 40px;
+  background-color: #d1561f;
+  background-image: 
+    linear-gradient(45deg, #e39352 25%, transparent 25%, transparent 75%, #e39352 75%, #e39352),
+    linear-gradient(45deg, #e39352 25%, transparent 25%, transparent 75%, #e39352 75%, #e39352);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* CRT Overlay */
+.crtOverlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+    radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+  background-size: 100% 4px, 100% 100%;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 30; /* Above ground, below CRT */
+  width: 100%;
+  height: 100%;
+}
